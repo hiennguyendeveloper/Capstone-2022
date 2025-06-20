@@ -1,0 +1,22 @@
+.mat-snackbar-success {
+  background-color: green;
+  color: white;
+}
+
+.mat-snackbar-soft-warn {
+  background-color: yellow;
+  color: black;
+}
+
+.mat-snackbar-info {
+  background-color: blue;
+  color: black;
+}
+
+.mat-snackbar-error {
+  background-color: red;
+  color: black;
+}
+
+.mat-snackbar-default {
+}

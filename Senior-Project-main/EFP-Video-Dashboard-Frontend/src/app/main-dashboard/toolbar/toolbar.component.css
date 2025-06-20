@@ -1,0 +1,19 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.mat-toolbar {
+  background: #002e5d;
+  background-size: cover;
+  color: #fff;
+}
+/*Spacing for the search bar*/
+/*.search-form {
+  flex: 1 1 auto;
+}*/
+
+.logoControl{
+  position: relative;
+  height: 2rem;
+  width: 4rem;
+}
