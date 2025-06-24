@@ -1,0 +1,41 @@
+<h1>Mentor Request Form</h1>
+
+<p>Once you have submitted your Mentor Request Form, please allow 3-5 business days for reviewing and
+  processing of your request.</p>
+<br>
+
+<form [formGroup]="mentorRequestFormGroup" class="request-form" fxLayout="column">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input formControlName="name" matInput required id="name">
+    <mat-error *ngIf="mentorRequestFormGroup.get('name')?.hasError('required')">Field is required</mat-error>
+    <mat-error *ngIf="mentorRequestFormGroup.get('name')?.hasError('maxlength')">Sorry, max length is 100 characters
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Preferred Gender</mat-label>
+    <mat-select formControlName="gender_request" required>
+      <!--Allows the user the select the gender of their preferred mentor-->
+      <mat-option *ngFor="let gender of genders" [value]="gender.value">
+        {{gender.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="mentorRequestFormGroup.get('gender_request')?.hasError('required')">Field is required</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>What characteristics would you like for your mentor to have to better fit you?</mat-label>
+    <textarea formControlName="mentor_description" matInput required></textarea>
+    <mat-error *ngIf="mentorRequestFormGroup.get('mentor_description')?.hasError('required')">Field is required
+    </mat-error>
+    <mat-error *ngIf="mentorRequestFormGroup.get('mentor_description')?.hasError('maxlength')">Sorry, max length is 255
+      characters
+    </mat-error>
+  </mat-form-field>
+</form>
+
+<br>
+
+<!--Allows the request to be submitted-->
+<button (click)="submitFunc()" [disabled]="!mentorRequestFormGroup.valid" color="primary" mat-raised-button
+        type="button">Submit Request
+</button>

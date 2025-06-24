@@ -1,0 +1,27 @@
+<div fxLayout="row"
+     fxLayoutGap=".2rem">
+
+  <div fxFlex="12"
+       fxLayout="column"
+       fxLayoutAlign="center start">
+    <mat-icon>{{getIcon().icon}}</mat-icon>
+  </div>
+
+  <div fxFlex="76"
+       fxLayout="column"
+       fxLayoutAlign="center center">
+    <span>{{data.message}}</span>
+  </div>
+
+  <div fxFlex="12"
+       fxLayout="column"
+       fxLayoutAlign="center end">
+    <button mat-icon-button>
+      <mat-icon
+        (click)="closeSnackbar()">close
+      </mat-icon>
+    </button>
+
+  </div>
+
+</div>

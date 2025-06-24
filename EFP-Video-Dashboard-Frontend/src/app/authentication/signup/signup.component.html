@@ -1,0 +1,65 @@
+<div fxLayout="column"
+     fxLayoutAlign="end end">
+  <button (click)="dialogRef.close(null)" mat-icon-button
+          style="margin: .2rem">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form *ngIf="!displayCheckEmail" [formGroup]="signupFormGroup" autocomplete="on" fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="row center">
+    <mat-icon>account_circle</mat-icon>
+    <h1>Sign-Up</h1>
+  </div>
+
+  <div fxFlex="30" fxLayout="column">
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input autocomplete="on" formControlName="email" matInput placeholder="johndoe@gmail.com" required id="email">
+  </mat-form-field>
+      <mat-error *ngIf="signupFormGroup.get('email')?.hasError('required') && signupFormGroup.get('email')?.dirty">Email field is required</mat-error>
+
+
+
+  <mat-form-field appearance="outline">
+    <mat-label>First Name</mat-label>
+    <input autocomplete="on" formControlName="first_name" matInput placeholder="John" required id="first_name">
+  </mat-form-field>
+    <mat-error *ngIf="signupFormGroup.get('first_name')?.hasError('required') && signupFormGroup.get('first_name')?.dirty">First name field is required</mat-error>
+
+
+  <mat-form-field appearance="outline">
+    <mat-label>Last Name</mat-label>
+    <input autocomplete="on" formControlName="last_name" matInput placeholder="Doe" required id="last_name">
+  </mat-form-field>
+    <mat-error *ngIf="signupFormGroup.get('last_name')?.hasError('required') && signupFormGroup.get('last_name')?.dirty">Last name field is required</mat-error>
+
+
+
+
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
+    <input [type]="hidePassword ? 'password' : 'text'" formControlName="password" matInput placeholder="" required
+           type="password" id="password">
+    <mat-icon (click)="hidePassword = !hidePassword"
+              matSuffix>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+  </mat-form-field>
+    <mat-error *ngIf="signupFormGroup.get('password')?.hasError('required') && signupFormGroup.get('password')?.dirty">Password field is required</mat-error>
+
+  </div>
+
+
+  <button (click)="signup()" [disabled]="!signupFormGroup.valid" color="primary" mat-raised-button type="submit">
+    SIGNUP
+  </button>
+  <br>
+  <button (click)="login()" color="primary" mat-raised-button>Login, instead</button>
+
+</form>
+<div *ngIf="displayCheckEmail" fxLayout="column" fxLayoutAlign="center center">
+  <h1>Success!</h1>
+  <br>
+  <h5>Please check your email for confirmation!</h5>
+
+</div>

@@ -1,0 +1,74 @@
+<div class="navbar-container">
+  <div class="toolbar">
+    <app-toolbar (sideNavEvent)="toggleSideNav($event)"></app-toolbar>
+  </div>
+
+  <mat-sidenav-container class="navbar-sidenav-container">
+
+    <mat-sidenav #sidenav
+                 [autoFocus]="true"
+                 fixedTopGap="56" mode="side"
+                  [ngClass]="displayNavFullScreen && sidenav.opened ? 'mat-drawer-small-screen' : 'mat-drawer'">
+
+      <mat-nav-list *ngIf="!(userInformationBS | async)">
+        <div>
+          <a mat-list-item style="margin-top: 1rem">
+            <span>You must be logged in to see this content.</span>
+          </a>
+        </div>
+      </mat-nav-list>
+      <mat-nav-list *ngIf="(userInformationBS | async)">
+        <div *ngFor="let navLink of navLinks |async">
+          <a *ngIf="navLink.linkType==0" [routerLink]="['/sections',navLink.className, navLink.linkType, navLink.id, navLink.objectId]"
+             mat-list-item>
+            <span>{{navLink.displayName}}</span>
+          </a>
+
+        </div>
+        <div *ngFor="let navLink of navLinks |async">
+          <a *ngIf="navLink.linkType==1" [routerLink]="['/modules',navLink.className, navLink.linkType, navLink.id, navLink.objectId]"
+             mat-list-item>
+            <span>{{navLink.displayName}}</span>
+          </a>
+
+        </div>
+
+        <div class="push-bottom">
+
+          <a (click)="createASection()" mat-list-item>
+            <mat-icon mat-list-icon>add</mat-icon>
+            <span> Create a Section</span>
+          </a>
+
+          <a mat-list-item routerLink="/mentorRequest">
+            <mat-icon mat-list-icon>person</mat-icon>
+            <span> Mentor Request</span>
+          </a>
+
+          <a mat-list-item routerLink="/settings">
+            <mat-icon mat-list-icon>settings</mat-icon>
+            <span> Settings</span>
+          </a>
+
+        </div>
+
+      </mat-nav-list>
+
+      <!-- This is where the bottom items reside.-->
+
+
+    </mat-sidenav>
+    <mat-sidenav-content class="sidenav-content">
+
+      <div *ngIf="!location.isCurrentPathEqualTo('/') && !location.isCurrentPathEqualTo('/testimonials')">
+        <mat-icon (click)="back()" class="back-arrow">arrow_back</mat-icon>
+      </div>
+      <div [ngClass]="displayMobile?'contentMobile':'content'">
+
+        <router-outlet></router-outlet>
+      </div>
+
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+</div>

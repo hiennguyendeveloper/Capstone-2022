@@ -1,0 +1,97 @@
+<div [ngClass]="stack?'mobileView':'nonmobileView'">
+  <div fxFlex="100%" [fxLayoutAlign]="stack?'center center':'end end'">
+<!--    <button (click)="deleteModule()" color="warn" mat-raised-button style="margin-top: 4rem">-->
+<!--      <mat-icon>delete</mat-icon>-->
+<!--      Delete Module-->
+<!--    </button>-->
+  </div>
+</div>
+
+<div [fxLayout]="stack?'column':'row'">
+  <div fxLayoutAlign="space-around center">
+
+    <form [formGroup]="editModuleFormGroup">
+      <ng-template>Title</ng-template>
+      <mat-form-field appearance="outline" style="margin-top: 3rem">
+        <mat-label>Title</mat-label>
+        <input formControlName="title" matInput placeholder="Money Mastery" required>
+        <mat-error *ngIf="editModuleFormGroup.get('title')?.hasError('required')">Field is required</mat-error>
+        <mat-error *ngIf="editModuleFormGroup.get('title')?.hasError('maxlength')">Sorry, max length is 50 characters
+        </mat-error>
+      </mat-form-field>
+
+      <br>
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <input formControlName="description" matInput placeholder="This is a course description...">
+        <mat-error *ngIf="editModuleFormGroup.get('description')?.hasError('maxlength')">Sorry, max length is 250
+          characters
+        </mat-error>
+      </mat-form-field>
+
+      <br>
+      <div *ngIf="!uploadComplete">
+        <div *ngIf="fileStatus.status==='progress'">
+
+          <mat-progress-bar [style.width.%]="fileStatus.percent" color="primary" mode="determinate"></mat-progress-bar>
+          {{ fileStatus.requestType }} {{ fileStatus.percent }}
+        </div>
+        <mat-label *ngIf="module?.picture == null">Upload Picture</mat-label>
+        <mat-label *ngIf="module?.picture != null">Upload A New Picture</mat-label>
+        <br>
+        <input #modulePhoto (change)="this.selectFile($event)" accept=".png" formControlName="image" type="file">
+        <mat-error
+          *ngIf="editModuleFormGroup.get('image')?.hasError('required') && editModuleFormGroup.get('image')?.touched">A
+          image upload is required
+        </mat-error>
+
+
+      </div>
+      <div *ngIf="uploadComplete" fxLayout="row">
+        <mat-icon class="mat-icon-check-green" fxLayoutAlign="start center">check_circle</mat-icon>
+        <h2 class="upload-complete" fxLayoutAlign="start center">Upload Complete!</h2>
+      </div>
+      <div fxLayout="column" >
+        <button (click)="submit()" [disabled]="!fileSelected && !this.editModuleFormGroup.dirty" color="primary" style="margin: 1rem 3rem"
+                mat-raised-button>Update
+        </button>
+        <button (click)="deleteModule()" color="warn" mat-raised-button style="margin: 0 3rem">
+          <mat-icon>delete</mat-icon>
+          Delete Module
+        </button>
+      </div>
+    </form>
+  </div>
+  <div fxLayoutAlign="space-around center">
+
+    <mat-divider style="height:100%" vertical></mat-divider>
+    <div style="padding: 1rem; margin: 1rem;">
+
+      <div fxLayout="row">
+        <mat-card class="example-card">
+          <mat-card-header class="header">
+            <!--      <div mat-card-avatar class="example-header-image"></div>-->
+            <mat-card-title>{{editModuleFormGroup.get('title')?.value}}</mat-card-title>
+            <!--ToDo: Add functionality for a sub header-->
+          </mat-card-header>
+
+          <div *ngIf="module?.picture != null">
+            <img [src]=baseImageUrl+module!.picture alt="A picture to represent the module selected" mat-card-image>
+          </div>
+          <div *ngIf="module?.picture == null">
+            <img alt="Place holder image" mat-card-image src="https://via.placeholder.com/150">
+          </div>
+
+          <mat-card-content>
+            <p>{{editModuleFormGroup.get('description')?.value}}</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary">Start</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+    </div>
+  </div>
+
+</div>

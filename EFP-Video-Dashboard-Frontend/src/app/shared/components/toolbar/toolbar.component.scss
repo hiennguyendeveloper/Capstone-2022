@@ -1,0 +1,77 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.mat-toolbar {
+  background: #002e5d;
+  background-size: cover;
+  color: #fff;
+}
+
+/*Spacing for the search bar*/
+/*.search-form {
+  flex: 1 1 auto;
+}*/
+
+/*.logoControl {
+  height: 14rem;
+  width: 14rem;
+  position: relative;
+  top: 0.85rem;
+  right: -5.7rem;
+  !*transform: scale(12.4);*!
+}*/
+
+.logoControl{
+  width: 100%;
+  transform: scale(0.25);
+  position: relative;
+  top: 0.4rem;
+  left: -20.4rem;
+  cursor: pointer;
+}
+
+.logoDiv{
+  width: 75px;
+}
+.buttonAye{
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: transparent;
+  cursor: pointer;
+  overflow: hidden;
+  outline: transparent;
+  transform: scale(0.20);
+  position: relative;
+  top: 0.3rem;
+  left: -23.4rem;
+}
+
+mat-icon.mat-icon.notranslate.logoControl1.mat-icon-no-color{
+  user-select: none;
+  background-repeat: no-repeat;
+  display: inline-block;
+  fill: currentColor;
+  height: 100%!important;
+  width: 100%!important;
+  margin-left: 15rem;
+}
+
+.user {
+  background-color: #0075BC;
+  display: inline-block;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+
+  object-fit: cover;
+}
+
+.sideNavOpen{
+  transition-duration: 330ms;
+  transform: rotate(90deg);
+}
+.sideNavClose{
+  transition-duration: 330ms;
+  transform: rotate(0);
+}

@@ -1,0 +1,44 @@
+<div [ngClass]="stack?'mobileView':'nonmobileView'">
+  <div [fxLayout]="stack?'column':'row'"  fxFlex="100%" [fxLayoutAlign]="stack?'center center':'end end'" fxLayoutGap="0.5rem">
+    <button (click)="createALesson()" color="primary" fxLayoutAlign="center center" mat-raised-button id="mainCreate">
+      <mat-icon>add</mat-icon>
+      Create a Lesson
+    </button>
+  </div>
+</div>
+<div *ngIf="(lessonList| async)" fxLayout="row wrap">
+  <a *ngFor="let lesson of lessonList | async" fxFlex="25%" fxFlex.sm="33%" fxFlex.xs="100%" fxLayoutAlign="strech">
+    <mat-card [ngClass]="stack?'example-card-mobile':'example-card'" fxLayout="column">
+      <mat-card-header class="header" fxFlexAlign="start start">
+        <!--      <div mat-card-avatar class="example-header-image"></div>-->
+        <mat-card-title>{{lesson.lessonName | slice:0:30}}{{ lesson.lessonName.length > 20 ? '...' : '' }}</mat-card-title>
+        <!--ToDo: Add functionality for a sub header-->
+        <div *ngIf="(authService.userAuthInfo!.role == 0)" fxFlex fxLayoutAlign="end start">
+          <a [routerLink]="['/direct-edit/lesson/',lesson.id ]" style="text-decoration: none; color: inherit" >
+            <mat-icon color="primary" [id]="lesson.lessonName">edit</mat-icon>
+          </a>
+        </div>
+      </mat-card-header>
+      <div *ngIf="lesson.picture">
+        <img [height]="" [src]=baseImageUrl+lesson!.picture alt="a picture to represent a lesson" mat-card-image>
+      </div>
+      <div *ngIf="!lesson.picture">
+        <img alt="Place holder image" mat-card-image [src]="baseImageUrl+'random1.png'">
+      </div>
+      <div class="bottom" id="footer">
+      <mat-card-actions fxFlexAlign="end start">
+        <button [routerLink]="['/lesson/',lesson.id]" mat-raised-button color="primary" >Start</button>
+      </mat-card-actions>
+      </div>
+    </mat-card>
+
+  </a>
+</div>
+
+
+<div *ngIf="(lessonList| async)?.length == 0" fxLayout="column" fxLayoutAlign="center center">
+  <h1>No Lessons to display!</h1>
+  <button (click)="createALesson()" color="primary" mat-raised-button style="width: 35%">
+    <mat-icon>add</mat-icon>
+    Create a Lesson</button>
+</div>

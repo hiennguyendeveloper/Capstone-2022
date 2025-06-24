@@ -1,0 +1,92 @@
+
+.navbar-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 3.5rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.back-arrow {
+  position: relative;
+  top: 2rem;
+  left: 2rem;
+}
+
+
+.toolbar {
+  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100% !important;
+}
+
+.content {
+  margin: 5rem;
+  padding: 1rem;
+}
+
+
+.contentMobile {
+  margin-left: 1rem;
+  margin-right: 0;
+  padding: 0;
+}
+
+.mat-drawer {
+  width: 15vw;
+}
+.mat-drawer-small-screen{
+  width: 100vw;
+}
+
+.bottomStick { /*border-top:1px solid green;border-bottom:1px solid green;*/
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.bottomRelative {
+  position: relative;
+  width: 100%;
+}
+
+mat-sidenav {
+  min-width: 180px !important;
+  border-right: 1px solid #dbdbdb;
+  box-shadow: 6px 0 6px rgba(0, 0, 0, .1);
+}
+
+.push-bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.navbar-is-mobile .navbar {
+  position: fixed;
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
+}
+
+.navbar-sidenav-container {
+  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+           causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+  flex: 1;
+}
+
+.navbar-is-mobile .navbar-sidenav-container {
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+           `<body>` to be our scrolling element for mobile layouts. */
+  flex: 1 0 auto;
+}
+
+/*this is here so that webpack doesnt remove the id of the button */
+#createASectionButton{
+  font-size: 1.00001rem;
+}
+

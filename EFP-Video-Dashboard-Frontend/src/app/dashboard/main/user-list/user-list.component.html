@@ -1,0 +1,44 @@
+<!--suppress ALL -->
+<table *ngIf="(userAuthenticationInfoBS|async)" [dataSource]="theUsers" class="mat-elevation-z8" mat-table>
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th *matHeaderCellDef mat-header-cell>Name</th>
+    <td *matCellDef="let element" mat-cell> {{element.first_name + " " + element.last_name}} </td>
+  </ng-container>
+
+  <!-- Role Column -->
+  <ng-container matColumnDef="role">
+    <th *matHeaderCellDef mat-header-cell>Role</th>
+    <td *matCellDef="let element" mat-cell> {{element.role.role}} </td>
+  </ng-container>
+
+  <!-- Login Column -->
+  <ng-container matColumnDef="last_login">
+    <th *matHeaderCellDef mat-header-cell>Last Login</th>
+    <td *matCellDef="let element" mat-cell> {{element.dtm_last_login|dateAgo}} </td>
+  </ng-container>
+
+  <!-- Progress Column -->
+  <ng-container matColumnDef="progress">
+    <th *matHeaderCellDef mat-header-cell>Progress</th>
+    <td *matCellDef="let element" mat-cell>
+      <mat-progress-bar [value]="element.progress | number" mode="determinate"></mat-progress-bar>
+    </td>
+  </ng-container>
+
+  <!-- edit Column -->
+  <ng-container matColumnDef="edit">
+    <th *matHeaderCellDef class="td-center" mat-header-cell>Edit</th>
+    <td (click)="editUser(element.id)" *matCellDef="let element" class="td-center" mat-cell>
+      <mat-icon [id]="element.first_name+element.last_name">edit</mat-icon>
+    </td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+</table>
+

@@ -1,0 +1,34 @@
+<div fxLayout="row" style="">
+  <div fxFlex="100%" fxLayoutAlign="start end">
+<!--    <button (click)="deleteSection()" color="warn" mat-raised-button class="deleteButton">-->
+<!--      <mat-icon>delete</mat-icon>-->
+<!--      Delete Section-->
+<!--    </button>-->
+  </div>
+  <button (click)="dialogRef.close(null)" mat-icon-button
+          style="margin: .2rem">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form [formGroup]="editSectionFormGroup" autocomplete="on" fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="row center">
+    <h1>Edit Section</h1>
+  </div>
+  <br>
+  <mat-form-field appearance="outline" fxLayout="column">
+    <mat-label>Title</mat-label>
+    <input autocomplete="on" formControlName="title" matInput placeholder="Section name" required type="newModule">
+  </mat-form-field>
+  <div fxFlex="100%" fxLayout="column" fxLayoutAlign="center center">
+  <button (click)="submitFunc()" [disabled]="!editSectionFormGroup.valid" color="primary" mat-raised-button
+          type="submit">Submit
+  </button>
+  <button (click)="deleteSection()" color="warn" mat-raised-button class="deleteButton">
+    <mat-icon>delete</mat-icon>
+    Delete Section
+  </button>
+  </div>
+  <br>
+</form>
+

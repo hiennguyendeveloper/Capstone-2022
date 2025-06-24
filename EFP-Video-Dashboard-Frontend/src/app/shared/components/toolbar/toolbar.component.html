@@ -1,0 +1,79 @@
+<nav>
+  <mat-toolbar>
+
+    <!--Add in the logo-->
+    <mat-toolbar-row>
+      <div (click)="toggleSideNav()">
+      <button  aria-label="icon-button with menu icon" mat-icon-button [ngClass]="sideNavState ? 'sideNavOpen' : 'sideNavClose'">
+        <mat-icon>menu</mat-icon>
+      </button>
+      </div>
+      <div class="logoDiv" *ngIf="displaySearchBar">
+      <button routerLink="/" class="buttonAye">
+        <img src="/assets/successSeries.svg" alt="EFPlogo">
+      </button>
+      </div>
+
+<!--      <div routerLink="" *ngIf="displaySearchBar" class="logoControl">-->
+<!--        <mat-icon aria-hidden="false" routerLink="/" svgIcon="smallLogo" class="logoControl1"></mat-icon>-->
+<!--      </div>-->
+
+
+      <span class="example-spacer"></span>
+
+
+      <!--Search Bar-->
+      <form class="search-form" *ngIf="displaySearchBar">
+        <mat-form-field class="example-full-width" floatLabel="never">
+          <input class="toolbar-search" matInput type="text">
+          <mat-placeholder>Search</mat-placeholder>
+          <mat-icon matSuffix style="font-size: 1.2em">search</mat-icon>
+        </mat-form-field>
+      </form>
+
+
+      <!--Bell icon/notifications-->
+      <button aria-label="Example icon-button with bell icon" class="example-icon" mat-icon-button>
+        <mat-icon>notifications</mat-icon>
+      </button>
+
+
+      <!--Profile Picture-->
+
+      <div *ngIf="(userDetailsBS| async)?.picture">
+        <a [mat-menu-trigger-for]="menu" mat-button>
+          <img [src]="baseImageUrl+userDetailsBS.value!.picture" alt="User Image" class="user">
+        </a>
+      </div>
+      <div *ngIf="!(userDetailsBS| async)?.picture">
+        <button [mat-menu-trigger-for]="menu" mat-icon-button>
+          <mat-icon>account_circle</mat-icon>
+        </button>
+      </div>
+
+
+      <mat-menu #menu="matMenu">
+        <div *ngIf="userDetailsBS.value">
+        <button *ngIf="(userInformationBS | async)" mat-menu-item [routerLink]="'/userDetails/'+ userDetailsBS.value.id" >
+          <mat-icon>person_outline</mat-icon>
+          <span>Profile</span>
+        </button>
+        </div>
+        <button *ngIf="userInformationBS | async" mat-menu-item routerLink="/settings">
+          <mat-icon>settings</mat-icon>
+          <span>Settings</span>
+        </button>
+        <button (click)="login()" *ngIf="!(userInformationBS | async)" mat-menu-item>
+          <mat-icon>login</mat-icon>
+          <span>Login</span>
+        </button>
+        <button (click)="logout()" *ngIf="(userInformationBS | async)" mat-menu-item>
+          <mat-icon>logout</mat-icon>
+          <span>Log Out</span>
+        </button>
+      </mat-menu>
+
+
+    </mat-toolbar-row>
+  </mat-toolbar>
+</nav>

@@ -1,0 +1,76 @@
+<h1>User Details</h1>
+
+<div fxLayout="row">
+  <form [formGroup]="UserDetailsFormGroup" class="request-form" fxFill fxLayoutGap="20px">
+    <div fxFlex="75" fxLayout="column">
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input formControlName="first_name" matInput required type="text">
+        <mat-error *ngIf="UserDetailsFormGroup.get('first_name')?.hasError('required')">Field is required</mat-error>
+        <mat-error *ngIf="UserDetailsFormGroup.get('first_name')?.hasError('maxlength')">Sorry, max length is 100
+          characters
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input formControlName="last_name" matInput required type="text">
+        <mat-error *ngIf="UserDetailsFormGroup.get('last_name')?.hasError('required')">Field is required</mat-error>
+        <mat-error *ngIf="UserDetailsFormGroup.get('last_name')?.hasError('maxlength')">Sorry, max length is 100
+          characters
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Role</mat-label>
+
+        <mat-select [value]="CurrentRole" formControlName="role" required>
+          <mat-option *ngFor="let role of roles let i = index" [value]="role">
+            {{ROLE_ENTRIES[i]}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="UserDetailsFormGroup.get('role')?.hasError('required')">Field is required</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input formControlName="email" matInput required type="email">
+        <mat-error *ngIf="UserDetailsFormGroup.get('email')?.hasError('required')">Field is required</mat-error>
+        <mat-error *ngIf="!UserDetailsFormGroup.get('email')?.hasError('required')">
+          Please enter a <strong>valid</strong> email
+        </mat-error>
+        <mat-error *ngIf="UserDetailsFormGroup.get('email')?.hasError('maxlength')">Sorry, max length is 100 characters
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxFlex="25" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
+      <div *ngIf="!UserDetail?.picture">
+        <img alt="User Image" class="user" src="https://via.placeholder.com/350">
+      </div>
+      <div *ngIf="UserDetail?.picture">
+        <img [src]="baseImageUrl+UserDetail!.picture" alt="User Image" class="user">
+      </div>
+      <input (change)="this.selectFile($event)" accept=".png" formControlName="image" type="file">
+
+    </div>
+  </form>
+</div>
+
+<br>
+
+<!--Allows the request to be submitted-->
+<div fxLayout="row">
+  <div fxFlex="100" fxLayoutAlign="start start">
+
+    <button (click)="submit()" [disabled]="!UserDetailsFormGroup.valid" color="primary" mat-raised-button
+            type="button">
+      Update
+    </button>
+  </div>
+  <div fxLayoutAlign="end end">
+    <button (click)="deleteUser()" color="warn" mat-raised-button>
+      <mat-icon>delete</mat-icon>
+      Delete User
+    </button>
+  </div>
+</div>
+
+
+

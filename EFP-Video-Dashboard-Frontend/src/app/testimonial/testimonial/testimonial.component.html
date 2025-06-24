@@ -1,0 +1,32 @@
+<div [fxLayout]="stack?'row wrap':'row'" fxLayoutGap="20px">
+
+
+
+  <div class="main">
+    <div>
+      <h2>Escape From Poverty</h2>
+      <p>
+        Poverty isn't just about a lack of money but a lack of knowledge, skills, connections, and support.
+        Escape from Poverty has empowered numerous people to Escape from Poverty by providing
+        needed resources through our Success Series curriculum, and we would love to help you.
+      </p>
+      <p>Watch our testimonials and discover how Escape From Poverty's Success Series can partner, equip, and empower
+        you.</p>
+    </div>
+
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="main" fxLayoutAlign="center center">
+    <div *ngIf="baseImageUrl">
+      <video [src]="baseImageUrl" controls height="auto" width="320" style="padding: 0; margin: 0;">
+
+        <!--    <source src="../../../assets/Testimonials.mp4">-->
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+
+
+</div>

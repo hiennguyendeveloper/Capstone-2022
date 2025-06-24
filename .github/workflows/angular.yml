@@ -1,0 +1,162 @@
+name: angular
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+jobs:
+  Setup:
+    runs-on: [self-hosted, linux, x64]
+    defaults:
+      run:
+        shell: bash
+
+    strategy:
+      matrix:
+        node-version: [16.14.0]
+
+    steps:
+      - name: Gonfigure git to ingnore long file paths
+        run: git config --global core.longpaths true
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - run: echo "The ${{ github.repository }} repository has been cloned to the runner. "
+
+      - name: Install Node_modules
+        run: npm ci --silent --quiet
+        working-directory: ./EFP-Video-Dashboard-Frontend
+        env:
+          CI: false
+
+      - name: Build Application
+        run: npm run build:prod --if-present
+        working-directory: ./EFP-Video-Dashboard-Frontend
+        env:
+          CI: false
+
+      - name: GZip Application
+        run: npm run gzip:prod
+        working-directory: ./EFP-Video-Dashboard-Frontend
+        env:
+          CI: false
+          
+      - name: Restart Nginx
+        run: systemctl restart nginx
+          
+  Test:
+          needs: Setup
+          runs-on: self-hosted
+          defaults:
+              run:
+                shell: bash
+
+          strategy:
+            matrix:
+             node-version: [16.14.0]
+
+          steps:
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v2
+              with:
+                node-version: ${{ matrix.node-version }}
+                
+            - name: Restart Database
+              run: systemctl restart postgresql.service || systemctl restart postgresql@12-main.service 
+              working-directory: ./EFP-Video-Dashboard-Frontend
+              env:
+                CI: false
+                
+            - name: Stop production backend on server
+              run: systemctl stop EFPBackend.service
+              working-directory: ./EFP-Video-Dashboard-Frontend
+              env:
+                CI: false
+                
+            - name: clean jar
+              run: ./gradlew clean
+              working-directory: ./EFP_Video_Dashboard_Backend
+              
+            - name: build jar
+              run: ./gradlew build
+              working-directory: ./EFP_Video_Dashboard_Backend
+                
+            - name: Start development backend on server
+              run: systemctl start EFPBackend-dev.service
+              working-directory: ./EFP-Video-Dashboard-Frontend
+              env:
+                CI: false
+
+            - name: Cypress Tests
+              uses: cypress-io/github-action@v2
+              with:
+                  config-file: cypress.json
+                  build: npm run build:dev
+                  start: npm run start:dev:test
+                  wait-on: 'http://localhost:4200'
+                  wait-on-timeout: 180
+                  browser: chrome
+                  working-directory: ./EFP-Video-Dashboard-Frontend
+          
+            - name: Stop development backend on server
+              run: systemctl stop EFPBackend-dev.service
+              working-directory: ./EFP-Video-Dashboard-Frontend
+              env:
+                CI: false
+            
+            
+  Cleanup:
+    needs: Test
+    if: always()
+    runs-on: self-hosted
+    
+    defaults:
+      run:
+        shell: bash
+        
+    steps:  
+      - name: Stop development backend on server
+        run: systemctl stop EFPBackend-dev.service
+        working-directory: ./EFP-Video-Dashboard-Frontend
+        env:
+          CI: false
+          
+      - name: Start production backend on server
+        run: systemctl start EFPBackend.service
+        working-directory: ./EFP-Video-Dashboard-Frontend
+        env:
+          CI: false
+          
+      - name: Build Application
+        run: npm run build:prod --if-present
+        working-directory: ./EFP-Video-Dashboard-Frontend
+        env:
+          CI: false
+
+      - name: GZip Application
+        run: npm run gzip:prod
+        working-directory: ./EFP-Video-Dashboard-Frontend
+        env:
+          CI: false
+      - name: Remove previous files in /var/www
+        run: rm -r /var/www/app.escapefrompoverty.org/*
+          
+      - name: Copy over files to var/www
+        run: cp -r dist/efp-video-dashboard-frontend/** /var/www/app.escapefrompoverty.org
+        working-directory: ./EFP-Video-Dashboard-Frontend
+        
+      - name: Copy over files to var/www
+        run: cp -r dist/efp-video-dashboard-frontend-gzipped/** /var/www/app.escapefrompoverty.org
+        working-directory: ./EFP-Video-Dashboard-Frontend
+                  
+      - name: Restart Nginx
+        run: systemctl restart nginx
+    
+    
+  

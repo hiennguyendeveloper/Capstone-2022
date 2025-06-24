@@ -1,0 +1,21 @@
+<div fxLayout="column"
+     fxLayoutAlign="end end">
+  <button (click)="dialogRef.close(null)" mat-icon-button
+          style="margin: .2rem">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div fxLayout="column" fxLayoutAlign="center center">
+
+  <h1>Delete User</h1>
+  <p>Are you sure you want to delete this user?</p>
+  <h3 class="mat-warn">This will delete all the user information!!</h3>
+  <div fxFlexAlign="row" style="margin-top: 1rem">
+    <div fxLayoutAlign="space-around center">
+      <button (click)="yes()" color="warn" mat-raised-button style="margin: 1rem">Yes</button>
+      <button (click)="no()" color="primary" mat-raised-button style="margin: 1rem">No</button>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,48 @@
+<div fxLayout="column"
+     fxLayoutAlign="end end">
+  <button (click)="dialogRef.close(null)" mat-icon-button
+          style="margin: .2rem">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form [formGroup]="loginFormGroup" autocomplete="on" fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="row center">
+    <mat-icon>account_circle</mat-icon>
+    <h1>Login</h1>
+  </div>
+  <div *ngIf="display_login_error && !display_email_confirmation_error" class="LoginError">
+    <p style="color: darkred"> Account and password is not exist</p>
+  </div>
+  <div *ngIf="display_email_confirmation_error && !display_login_error" class="EmailError">
+    <p style="color: darkred"> Please confirm your email address.</p>
+  </div>
+  <br>
+
+  <div fxFlex="100">
+    <mat-form-field appearance="outline" fxLayout="column">
+      <mat-label>Email</mat-label>
+      <input autocomplete="on" formControlName="email" matInput placeholder="johndoe@gmail.com" required type="email">
+    </mat-form-field>
+        <mat-error *ngIf="loginFormGroup.get('email')?.hasError('required') && loginFormGroup.get('email')?.dirty">Email field is required</mat-error>
+
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input [type]="hidePassword ? 'password' : 'text'" formControlName="password" matInput placeholder="" required
+             type="password">
+      <mat-icon (click)="hidePassword = !hidePassword"
+                matSuffix>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </mat-form-field>
+    <mat-error *ngIf="loginFormGroup.get('password')?.hasError('required') && loginFormGroup.get('email')?.dirty">Password
+      field is required
+    </mat-error>
+
+  </div>
+
+  <button (click)="login()" [disabled]="!loginFormGroup.valid" color="primary" mat-raised-button type="submit" style="margin-bottom: 1rem;">LOGIN</button>
+  <button (click)="forgotPassword()" color="primary" mat-raised-button>FORGOT PASSWORD</button>
+
+  <p>Dont have an account?</p><a (click)="signup()" type="signup" >Sign-up?</a>
+
+</form>

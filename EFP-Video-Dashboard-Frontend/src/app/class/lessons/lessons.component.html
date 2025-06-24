@@ -1,0 +1,56 @@
+
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + baseImageUrl+lesson!.picture + ')'"></div>
+    <mat-card-title>{{lesson.lessonName}}</mat-card-title>
+    <mat-card-subtitle>{{module.moduleName}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+
+    <div [fxLayout]="stack?'row wrap':'row'" fxLayoutGap="1rem">
+
+    <div *ngIf="displayVideo && lesson.video != null" [ngClass]="stack?'stackedVideoViewer':'VideoViewer'">
+      <video controls width="100%" height="auto">
+        <source src="{{baseImageUrl+lesson!.video!.videoPath}}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div *ngIf="!displayVideo"> No Videos to display.</div>
+
+    <br>
+    <div *ngIf="workbook !== null && workbook.workbookPath != null" [ngClass]="stack?'stackedPdfViewer':'PdfViewer'">
+      <ng2-pdfjs-viewer
+        [pdfSrc]="baseImageUrl + workbook.workbookPath"
+        [openFile]="false"
+        [viewBookmark]="false">
+      </ng2-pdfjs-viewer>
+    </div>
+
+    </div>
+
+
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary">Complete</button>
+  </mat-card-actions>
+</mat-card>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

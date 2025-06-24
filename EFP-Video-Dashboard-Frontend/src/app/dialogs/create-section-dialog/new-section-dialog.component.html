@@ -1,0 +1,24 @@
+<div fxLayout="column"
+     fxLayoutAlign="end end">
+  <button (click)="dialogRef.close(null)" mat-icon-button
+          style="margin: .2rem">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form [formGroup]="newSectionFormGroup" autocomplete="on" fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="row center">
+    <h1>Create a New Section</h1>
+  </div>
+  <br>
+  <mat-form-field appearance="outline" fxLayout="column">
+    <mat-label>New Section Name</mat-label>
+    <input autocomplete="on" formControlName="newSection" matInput placeholder="Section name" required
+           type="newSection" id="newSection">
+  </mat-form-field>
+  <button (click)="submitFunc()" [disabled]="!newSectionFormGroup.valid" color="primary" mat-raised-button
+          type="submit">Submit
+  </button>
+
+  <br>
+</form>

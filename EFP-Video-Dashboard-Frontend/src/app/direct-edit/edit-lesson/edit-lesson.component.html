@@ -1,0 +1,113 @@
+
+<div [fxLayout]="stack?'column':'row'" >
+  <div fxLayoutAlign="space-around center">
+    <form [formGroup]="editLessonFormGroup">
+      <ng-template>Lesson Title</ng-template>
+      <mat-form-field appearance="outline">
+        <mat-label>Lesson Title</mat-label>
+        <input formControlName="title" matInput placeholder="Budgeting Introduction" required>
+        <mat-error *ngIf="editLessonFormGroup.get('title')?.hasError('required')">Field is required</mat-error>
+        <mat-error *ngIf="editLessonFormGroup.get('title')?.hasError('maxlength')">Sorry, max length is 50 characters
+        </mat-error>
+      </mat-form-field>
+
+      <br>
+
+      <mat-card fxLayout="column">
+        <mat-card-title>Lesson Image</mat-card-title>
+        <br>
+        <mat-label *ngIf="lesson?.picture == null">Upload Picture</mat-label>
+        <mat-label *ngIf="lesson?.picture != null">Upload A New Picture</mat-label>
+
+        <input (change)="this.selectImage($event)" accept=".png" formControlName="image" type="file">
+        <br>
+      </mat-card>
+
+      <br>
+
+      <mat-card fxLayout="column">
+        <mat-card-title>Workbook File Selection</mat-card-title>
+        <mat-form-field appearance="outline">
+          <mat-label>Workbook Title</mat-label>
+          <input formControlName="workbookTitle" matInput placeholder="Workbook Title" required>
+          <mat-error *ngIf="editLessonFormGroup.get('workbookTitle')?.hasError('required')">Field is required
+          </mat-error>
+          <mat-error *ngIf="editLessonFormGroup.get('workbookTitle')?.hasError('maxLength')">Sorry, max length is 50
+            characters
+          </mat-error>
+        </mat-form-field>
+        <div *ngIf="workbookFileStatus.status==='progress'">
+
+          <mat-progress-bar [style.width.%]="workbookFileStatus.percent" color="primary" mode="determinate"></mat-progress-bar>
+          {{ workbookFileStatus.requestType }} {{ workbookFileStatus.percent }}
+        </div>
+        <input (change)="this.selectWorkbook($event)" accept=".pdf" formControlName="workbook" type="file">
+        <br>
+        <!-- <button mat-raised-button color="accent" (click)="this.upload()" type="button">Upload</button>-->
+      </mat-card>
+
+      <br>
+
+      <mat-card fxLayout="column">
+        <mat-card-title>Video File Selection</mat-card-title>
+        <mat-form-field appearance="outline">
+          <mat-label>Video Title</mat-label>
+          <input formControlName="videoTitle" matInput placeholder="Video title" required>
+          <mat-error *ngIf="editLessonFormGroup.get('videoTitle')?.hasError('required')">Field is required</mat-error>
+          <mat-error *ngIf="editLessonFormGroup.get('videoTitle')?.hasError('maxLength')">Sorry, max length is 50
+            characters
+          </mat-error>
+        </mat-form-field>
+        <div *ngIf="videoFileStatus.status==='progress'">
+
+          <mat-progress-bar [style.width.%]="videoFileStatus.percent" color="primary" mode="determinate"></mat-progress-bar>
+          {{ videoFileStatus.requestType }} {{ videoFileStatus.percent }}
+        </div>
+        <input (change)="this.selectVideo($event)" accept=".mp4,.mov" formControlName="video" type="file">
+        <br>
+        <!--<button mat-raised-button color="accent" (click)="this.upload()" type="button">Upload</button>-->
+
+      </mat-card>
+      <div fxLayout="column">
+      <button (click)="submit()" [disabled]="!imageFile && !this.editLessonFormGroup.dirty" style="margin: 1rem 3rem"
+              color="primary" mat-raised-button>Submit
+      </button>
+      <button (click)="deleteLesson()" style="margin: 0 3rem" color="warn" mat-raised-button>
+        <mat-icon>delete</mat-icon>
+        Delete Lesson
+      </button>
+      </div>
+    </form>
+
+  </div>
+
+  <div fxLayoutAlign="center center" >
+    <mat-divider style="height:100%" [vertical]="!stack"></mat-divider>
+    <div style="padding: 1rem; margin: 1rem;" [ngClass]="previewSize?'fullScreenCard':''">
+
+      <div fxLayout="row">
+        <mat-card class="example-card">
+          <mat-card-header class="header">
+            <!--      <div mat-card-avatar class="example-header-image"></div>-->
+            <mat-card-title>{{editLessonFormGroup.get('title')?.value}}</mat-card-title>
+            <!--ToDo: Add functionality for a sub header-->
+          </mat-card-header>
+
+          <div *ngIf="lesson?.picture != null">
+            <img [src]=baseImageUrl+lesson!.picture! alt="A picture to represent the module selected" mat-card-image>
+          </div>
+          <div *ngIf="lesson?.picture == null">
+            <img alt="Place holder image" mat-card-image src="https://via.placeholder.com/150">
+          </div>
+
+          <mat-card-content>
+            <p>{{editLessonFormGroup.get('workbookTitle')?.value}}</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary">Start</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

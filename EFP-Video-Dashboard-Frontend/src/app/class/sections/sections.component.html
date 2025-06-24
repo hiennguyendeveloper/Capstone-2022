@@ -1,0 +1,58 @@
+<div [ngClass]="stack?'mobileView':'nonmobileView'">
+  <div [fxLayout]="stack?'column':'row'" fxFlex="100%" [fxLayoutAlign]="stack?'center center':'end end'" fxLayoutGap="0.5rem">
+    <button (click)="createModule()" color="primary" mat-raised-button>
+      <mat-icon>add</mat-icon>
+      Create Module
+    </button>
+    <button (click)="updateSection()" color="primary" mat-raised-button>
+      <mat-icon>edit</mat-icon>
+      Edit Section
+    </button>
+
+
+  </div>
+</div>
+
+<div *ngIf="(moduleList| async)" fxLayout="row wrap">
+  <a *ngFor="let module of moduleList | async" fxFlex="25%" fxFlex.sm="33%" fxFlex.xs="100%" fxLayoutAlign="strech">
+    <mat-card [ngClass]="mobileCard?'example-card-mobile':'example-card'" fxLayout="column">
+      <mat-card-header class="header" fxFlexAlign="start start">
+        <!--      <div mat-card-avatar class="example-header-image"></div>-->
+        <mat-card-title>{{module.moduleName | slice:0:30}}{{ module.moduleName.length > 20 ? '...' : '' }}</mat-card-title>
+        <!--ToDo: Add functionality for a sub header-->
+        <div *ngIf="(authService.userAuthInfo!.role == 0)" fxFlex fxLayoutAlign="end start">
+          <a [routerLink]="['/direct-edit/module/',module.id]" style="text-decoration: none; color: inherit">
+            <mat-icon color="primary" [id]=module.moduleName>edit</mat-icon>
+          </a>
+        </div>
+      </mat-card-header>
+
+      <div *ngIf="module.picture">
+        <img [height]="" [src]=baseImageUrl+module!.picture alt="a picture to represent a module" mat-card-image>
+      </div>
+      <div *ngIf="!module.picture">
+        <img alt="Placeholder image" mat-card-image [src]="baseImageUrl+'random3.png'">
+      </div>
+
+
+      <div class="bottom" id="footer">
+        <mat-card-content fxFlexAlign="end start">
+          <p>{{module.moduleDescription | slice:0:250}}</p>
+        </mat-card-content>
+
+        <mat-card-actions fxFlexAlign="end start">
+          <button [routerLink]="['/module/',module.id]" mat-raised-button color="primary" [id]=module.moduleName>Start</button>
+        </mat-card-actions>
+      </div>
+    </mat-card>
+  </a>
+</div>
+
+
+<div *ngIf="(moduleList| async)?.length == 0" fxLayout="column">
+  <h1 fxLayoutAlign="center center">No Module to display!</h1>
+  <button (click)="createModule()" color="primary" fxLayoutAlign="center center" mat-raised-button>
+    <mat-icon>add</mat-icon>
+    Create a Module
+  </button>
+</div>

@@ -1,0 +1,303 @@
+<!--suppress ALL -->
+
+<mat-accordion class="example-headers-align" multi>
+  <mat-expansion-panel *ngIf="userHistory.length > 0" expanded>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Users
+      </mat-panel-title>
+      <mat-panel-description>
+        Deleted Users
+        <mat-icon>account_circle</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <table *ngIf="(userHistoryBS|async)" [dataSource]="userHistory" class="mat-elevation-z8" fxFill mat-table>
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th *matHeaderCellDef mat-header-cell>Name</th>
+        <td *matCellDef="let element" mat-cell> {{element.firstName + " " + element.lastName}} </td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th *matHeaderCellDef mat-header-cell>Email</th>
+        <td *matCellDef="let element" mat-cell> {{element.email}} </td>
+      </ng-container>
+
+      <!-- Role Column -->
+      <ng-container matColumnDef="role">
+        <th *matHeaderCellDef mat-header-cell>Role</th>
+        <td *matCellDef="let element" mat-cell> {{element.userRole.role}} </td>
+      </ng-container>
+
+      <!-- Last Login Column -->
+      <ng-container matColumnDef="last_login">
+        <th *matHeaderCellDef mat-header-cell>Last Login</th>
+        <td *matCellDef="let element" mat-cell> {{element.role|dateAgo}} </td>
+      </ng-container>
+
+
+      <!-- Roll back Column -->
+      <ng-container matColumnDef="undo">
+        <th *matHeaderCellDef class="td-center" mat-header-cell>Undo</th>
+        <td (click)="undoUserDelete(element.id)" *matCellDef="let element" class="td-center" mat-cell>
+          <mat-icon color="primary" [id]="element.firstName+element.lastName">undo</mat-icon>
+        </td>
+      </ng-container>
+
+      <!-- Delete Forever Column -->
+      <ng-container matColumnDef="delete">
+        <th *matHeaderCellDef class="td-center" mat-header-cell>Delete</th>
+        <td (click)="foreverDeleteUser(element.id)" *matCellDef="let element" class="td-center" mat-cell>
+          <mat-icon color="warn" [id]="element.firstName+element.lastName">delete</mat-icon>
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayedColumnsUsers" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumnsUsers;" mat-row></tr>
+    </table>
+
+  </mat-expansion-panel>
+
+  <mat-expansion-panel *ngIf="userHistory.length<=0" disabled>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Users
+      </mat-panel-title>
+      <mat-panel-description>
+        No Deleted Users
+        <mat-icon>account_circle</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel *ngIf="sectionHistory.length > 0" expanded>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Sections
+      </mat-panel-title>
+      <mat-panel-description>
+        Deleted Sections
+        <mat-icon>density_large</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+
+    <table *ngIf="(sectionHistoryBS|async)" [dataSource]="sectionHistory" class="mat-elevation-z8" fxFill mat-table>
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="sectionName">
+        <th *matHeaderCellDef mat-header-cell>Section Title</th>
+        <td *matCellDef="let element" mat-cell> {{element.sectionName}} </td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="dtmCreated">
+        <th *matHeaderCellDef mat-header-cell>Date Created</th>
+        <td *matCellDef="let element" mat-cell> {{element.dtmCreated|dateAgo}} </td>
+      </ng-container>
+
+      <!-- Role Column -->
+      <ng-container matColumnDef="dtmUpdated">
+        <th *matHeaderCellDef mat-header-cell>Last Updates</th>
+        <td *matCellDef="let element" mat-cell> {{element.dtmUpdated|dateAgo}} </td>
+      </ng-container>
+
+      <!-- Last Login Column -->
+      <ng-container matColumnDef="dtmDeleted">
+        <th *matHeaderCellDef mat-header-cell>Date Deleted</th>
+        <td *matCellDef="let element" mat-cell> {{element.dtmDeleted|dateAgo}} </td>
+      </ng-container>
+
+      <!-- Roll back Column -->
+      <ng-container matColumnDef="undo">
+        <th *matHeaderCellDef class="td-center" mat-header-cell>Undo</th>
+        <td (click)="undoSectionDelete(element.id)" *matCellDef="let element" class="td-center" mat-cell>
+          <mat-icon color="primary" [id]="element.sectionName">undo</mat-icon>
+        </td>
+      </ng-container>
+
+      <!-- Delete Forever Column -->
+      <ng-container matColumnDef="delete">
+        <th *matHeaderCellDef class="td-center" mat-header-cell>Delete</th>
+        <td (click)="foreverDeleteSection(element.id)" *matCellDef="let element" class="td-center" mat-cell>
+          <mat-icon color="warn" [id]="element.sectionName">delete</mat-icon>
+        </td>
+      </ng-container>
+
+
+      <tr *matHeaderRowDef="displayedColumnsSection" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumnsSection;" mat-row></tr>
+    </table>
+
+  </mat-expansion-panel>
+
+  <mat-expansion-panel *ngIf="sectionHistory.length<=0" disabled>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Section
+      </mat-panel-title>
+      <mat-panel-description>
+        No Deleted Sections
+        <mat-icon>density_large</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel *ngIf="modulesHistory.length > 0" expanded>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Modules
+      </mat-panel-title>
+      <mat-panel-description>
+        Deleted Modules
+        <mat-icon>density_medium</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <table *ngIf="(modulesHistoryBS|async)" [dataSource]="modulesHistory" class="mat-elevation-z8" fxFill mat-table>
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="moduleName">
+        <th *matHeaderCellDef mat-header-cell>Module Title</th>
+        <td *matCellDef="let element" mat-cell> {{element.moduleName}} </td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="dtmCreated">
+        <th *matHeaderCellDef mat-header-cell>Date Created</th>
+        <td *matCellDef="let element" mat-cell> {{element.dtmCreated|dateAgo}} </td>
+      </ng-container>
+
+      <!-- Role Column -->
+      <ng-container matColumnDef="dtmUpdated">
+        <th *matHeaderCellDef mat-header-cell>Last Updates</th>
+        <td *matCellDef="let element" mat-cell> {{element.dtmUpdated|dateAgo}} </td>
+      </ng-container>
+
+      <!-- Last Login Column -->
+      <ng-container matColumnDef="dtmDeleted">
+        <th *matHeaderCellDef mat-header-cell>Date Deleted</th>
+        <td *matCellDef="let element" mat-cell> {{element.dtmDeleted|dateAgo}} </td>
+      </ng-container>
+
+      <!-- Roll back Column -->
+      <ng-container matColumnDef="undo">
+        <th *matHeaderCellDef class="td-center" mat-header-cell>Undo</th>
+        <td (click)="undoModuleDelete(element.id)" *matCellDef="let element" class="td-center" mat-cell>
+          <mat-icon color="primary" [id]="element.moduleName">undo</mat-icon>
+        </td>
+      </ng-container>
+
+      <!-- Delete Forever Column -->
+      <ng-container matColumnDef="delete">
+        <th *matHeaderCellDef class="td-center" mat-header-cell>Delete</th>
+        <td (click)="foreverDeleteModule(element.id)" *matCellDef="let element" class="td-center" mat-cell>
+          <mat-icon color="warn" [id]="element.moduleName">delete</mat-icon>
+        </td>
+      </ng-container>
+
+
+      <tr *matHeaderRowDef="displayedColumnsModule" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumnsModule;" mat-row></tr>
+    </table>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel *ngIf="modulesHistory.length<=0" disabled>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Modules
+      </mat-panel-title>
+      <mat-panel-description>
+        No Deleted Modules
+        <mat-icon>density_medium</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel *ngIf="lessonHistory.length > 0" expanded>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Lessons
+      </mat-panel-title>
+      <mat-panel-description>
+        Deleted Lessons
+        <mat-icon>density_small</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <table *ngIf="(lessonHistoryBS|async)" [dataSource]="lessonHistory" class="mat-elevation-z8" fxFill mat-table>
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="lessonName">
+        <th *matHeaderCellDef mat-header-cell>Module Title</th>
+        <td *matCellDef="let element" mat-cell> {{element.lessonName}} </td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="dtmCreated">
+        <th *matHeaderCellDef mat-header-cell>Date Created</th>
+        <td *matCellDef="let element" mat-cell> {{element.dtmCreated|dateAgo}} </td>
+      </ng-container>
+
+      <!-- Role Column -->
+      <ng-container matColumnDef="dtmUpdated">
+        <th *matHeaderCellDef mat-header-cell>Last Updates</th>
+        <td *matCellDef="let element" mat-cell> {{element.dtmUpdated|dateAgo}} </td>
+      </ng-container>
+
+      <!-- Last Login Column -->
+      <ng-container matColumnDef="dtmDeleted">
+        <th *matHeaderCellDef mat-header-cell>Date Deleted</th>
+        <td *matCellDef="let element" mat-cell> {{element.dtmDeleted|dateAgo}} </td>
+      </ng-container>
+
+      <!-- Roll back Column -->
+      <ng-container matColumnDef="undo">
+        <th *matHeaderCellDef class="td-center" mat-header-cell>Undo</th>
+        <td (click)="undoLessonDelete(element.id)" *matCellDef="let element" class="td-center" mat-cell>
+          <mat-icon color="primary" [id]="element.lessonName">undo</mat-icon>
+        </td>
+      </ng-container>
+
+      <!-- Delete Forever Column -->
+      <ng-container matColumnDef="delete">
+        <th *matHeaderCellDef class="td-center" mat-header-cell>Delete</th>
+        <td (click)="foreverDeleteLesson(element.id)" *matCellDef="let element" class="td-center" mat-cell >
+          <mat-icon color="warn" [id]="element.lessonName">delete</mat-icon>
+        </td>
+      </ng-container>
+
+
+      <tr *matHeaderRowDef="displayedColumnsLesson" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumnsLesson;" mat-row></tr>
+    </table>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel *ngIf="lessonHistory.length<=0" disabled>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Lessons
+      </mat-panel-title>
+      <mat-panel-description>
+        No Deleted Lessons
+        <mat-icon>density_small</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+
+</mat-accordion>

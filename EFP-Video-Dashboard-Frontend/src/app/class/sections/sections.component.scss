@@ -1,0 +1,50 @@
+.example-card {
+  width: 100%;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.example-card-mobile {
+  //max-width: 400px;
+  //min-width: 350px;
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  padding: 1rem;
+}
+
+
+a {
+  text-decoration: none;
+}
+
+.non-mobileView{
+  position: relative;
+  top: -6rem
+}
+
+.mobileView{
+  position: relative;
+  top: 0
+}
+
+.parent {
+  display: block;
+}
+
+.mat-card-image:last-child {
+  position: relative;
+  bottom: 0;
+  /* border-top-left-radius: inherit; */
+  /* border-top-right-radius: inherit; */
+}
+
+.bottom {
+  margin-top: auto;
+  margin-bottom: 0;
+}
+
+.header {
+  margin-bottom: 1rem;
+}

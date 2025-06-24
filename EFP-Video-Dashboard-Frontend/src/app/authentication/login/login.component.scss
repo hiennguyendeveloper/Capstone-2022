@@ -1,0 +1,23 @@
+a {
+  color: cornflowerblue;
+  font-weight: bolder;
+  font-size: medium;
+  cursor: pointer;
+}
+
+.LoginError {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  border-radius: .7rem;
+  padding: .7rem;
+}
+
+.EmailError {
+  color: #212020;
+  background-color: #f1c54d;
+  border-color: #8d6600;
+  border-radius: .7rem;
+  padding: .7rem;
+}
+

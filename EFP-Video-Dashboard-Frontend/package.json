@@ -1,0 +1,79 @@
+{
+  "name": "efp-video-dashboard-frontend",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+
+    "start:dev:test": "ng serve --port 4200 --configuration=dev",
+    "build:dev": "ng build --configuration=dev",
+
+    "build:prod": "ng build --configuration production",
+    "start:prod:test": "ng serve --port 4200 --configuration=production",
+
+    "gzip:prod": "gzipper compress ./dist/efp-video-dashboard-frontend ./dist/efp-video-dashboard-frontend-gzipped",
+    "cypress": "cypress open",
+    "cypress:dev-run": "cypress run"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "~13.2.0",
+    "@angular/cdk": "^13.2.3",
+    "@angular/common": "~13.2.2",
+    "@angular/compiler": "~13.2.2",
+    "@angular/core": "~13.2.7",
+    "@angular/flex-layout": "^13.0.0-beta.38",
+    "@angular/forms": "~13.2.0",
+    "@angular/material": "^13.2.3",
+    "@angular/platform-browser": "~13.2.0",
+    "@angular/platform-browser-dynamic": "~13.2.0",
+    "@angular/router": "~13.2.0",
+    "@istanbuljs/nyc-config-babel": "^3.0.0",
+    "gzipper": "^7.0.0",
+    "jwt-decode": "^3.1.2",
+    "ng2-pdfjs-viewer": "^13.2.2",
+    "ngx-build-plus": "^13.0.1",
+    "rxjs": "~7.5.0",
+    "tslib": "^2.3.1",
+    "zone.js": "~0.11.4"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~13.2.2",
+    "@angular/cli": "~13.3.3",
+    "@angular/compiler-cli": "~13.2.0",
+    "@cypress/code-coverage": "^3.9.12",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
+    "@types/jasmine": "~3.10.0",
+    "@types/node": "^12.11.1",
+    "babel-plugin-istanbul": "^6.1.1",
+    "cypress": "^9.5.4",
+    "istanbul-lib-coverage": "^3.2.0",
+    "jasmine-core": "~4.0.0",
+    "karma": "~6.3.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage": "~2.1.0",
+    "karma-jasmine": "~4.0.0",
+    "karma-jasmine-html-reporter": "~1.7.0",
+    "nyc": "^15.1.0",
+    "source-map-support": "^0.5.21",
+    "typescript": "~4.5.2"
+  },
+  "nyc": {
+    "extends": "@istanbuljs/nyc-config-babel",
+    "all": true,
+    "exclude": [
+      "**/cypress/**",
+      "**/coverage/**",
+      "karma.conf.js",
+      "src/test.ts",
+      "**/RoleModel.ts",
+      "**/upload-file.service.ts",
+      "**/*.spec.ts"
+    ],
+    "reporter": [
+      "html"
+    ]
+  }
+}
